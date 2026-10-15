@@ -39,3 +39,6 @@ De los clientes/as desea almacenar:
 - He creado la clase Provider y la tabla en MySQL Workbench
 - he añadido la dependancy de mySQL y he creado la clase DatabaseConnection con las instrucciones para connectarse a la tabla.
 - he creado ProviderRepository para traducir las informaciones de la clase Provider en MySQL
+- he creado un test de ProviderRepository para probar que el provider se guarde
+- como con Provider he creado la glasse Glasses, el repository GlassesRepository y la tabla en MySQL workbench
+- 

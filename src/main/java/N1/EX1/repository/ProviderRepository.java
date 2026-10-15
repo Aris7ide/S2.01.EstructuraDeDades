@@ -10,7 +10,7 @@ import java.sql.Statement;
 public class ProviderRepository {
 
     public void save(Provider provider) {
-        String sql = "INSERT INTO provider (names,street,number, floor, door, city, postal_code, country, phone, fax, nif)" +
+        String sql = "INSERT INTO provider (name,street,number, floor, door, city, postal_code, country, phone, fax, nif)" +
                      "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         try (Connection conn = DatabaseConnection.getConnection();
