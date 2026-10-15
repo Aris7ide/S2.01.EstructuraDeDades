@@ -38,4 +38,4 @@ De los clientes/as desea almacenar:
 - Tambièn he installado MySQL Workbench para ver las tablas creadas
 - He creado la clase Provider y la tabla en MySQL Workbench
 - he añadido la dependancy de mySQL y he creado la clase DatabaseConnection con las instrucciones para connectarse a la tabla.
-- 
+- he creado ProviderRepository para traducir las informaciones de la clase Provider en MySQL
