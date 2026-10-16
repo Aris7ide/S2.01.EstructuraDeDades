@@ -9,8 +9,8 @@ import java.sql.SQLException;
 public class GlassesRepository {
 
     public void save(Connection connection, Glasses glasses) {
-        String sql = "INSERT INTO glasses (brand,left_glass_graduation,right_glass_graduation,frame_type,frame_color," +
-                "left_glass_color,right_glass_color,price,provider_id)" +
+        String sql = "INSERT INTO glasses (brand,left_graduation,right_graduation,frame_type,frame_color," +
+                "left_lens_color,right_lens_color,price,provider_id)" +
                      "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
