@@ -41,4 +41,4 @@ De los clientes/as desea almacenar:
 - he creado ProviderRepository para traducir las informaciones de la clase Provider en MySQL
 - he creado un test de ProviderRepository para probar que el provider se guarde
 - como con Provider he creado la glasse Glasses, el repository GlassesRepository y la tabla en MySQL workbench
-- 
+- hago lo mismo con Client y ClientRepository

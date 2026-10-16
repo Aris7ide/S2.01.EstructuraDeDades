@@ -9,7 +9,7 @@ import java.sql.SQLException;
 public class GlassesRepository {
 
     public void save(Glasses glasses) {
-        String sql = "INSERT INTO glasses (brand,graduationLeft,graduationRight,type,color,colorLeft,colorRight,price,provider)" +
+        String sql = "INSERT INTO glasses (brand,left_glass_graduation,right_glass_graduation,frame_type,frame_color,left_glass_color,right_glass_color,price,provider_id)" +
                      "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         try (Connection conn = DatabaseConnection.getConnection();
