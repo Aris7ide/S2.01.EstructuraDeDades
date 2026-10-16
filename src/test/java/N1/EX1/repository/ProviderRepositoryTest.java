@@ -47,7 +47,7 @@ class ProviderRepositoryTest {
                 "Z1111111Z"
         );
 
-        repository.save(provider);
+        repository.save(connection, provider);
 
         assertThat(provider.getName()).isEqualTo("Optica Test Rollback");
     }

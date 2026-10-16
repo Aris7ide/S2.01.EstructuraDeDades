@@ -2,19 +2,15 @@ package N1.EX1.repository;
 
 import N1.EX1.models.Provider;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 
 public class ProviderRepository {
 
-    public void save(Provider provider) {
+    public void save(Connection connection, Provider provider) {
         String sql = "INSERT INTO provider (name,street,number, floor, door, city, postal_code, country, phone, fax, nif)" +
                      "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-        try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
             preparedStatement.setString(1, provider.getName());
             preparedStatement.setString(2, provider.getStreet());
@@ -29,7 +25,16 @@ public class ProviderRepository {
             preparedStatement.setString(11, provider.getNif());
 
             preparedStatement.executeUpdate();
-            System.out.println("Saved provider");
+
+            try (ResultSet generatedKeys = preparedStatement.getGeneratedKeys()) {
+                if (generatedKeys.next()) {
+                    int generatedId = generatedKeys.getInt(1);
+
+                    provider.setId(generatedId);
+
+                    System.out.println("✅ Proveedor guardado con éxito. ID asignado: " + generatedId);
+                }
+            }
 
         } catch (SQLException e) {
             System.err.println(e.getMessage());

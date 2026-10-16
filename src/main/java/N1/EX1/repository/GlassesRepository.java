@@ -8,12 +8,12 @@ import java.sql.SQLException;
 
 public class GlassesRepository {
 
-    public void save(Glasses glasses) {
-        String sql = "INSERT INTO glasses (brand,left_glass_graduation,right_glass_graduation,frame_type,frame_color,left_glass_color,right_glass_color,price,provider_id)" +
+    public void save(Connection connection, Glasses glasses) {
+        String sql = "INSERT INTO glasses (brand,left_glass_graduation,right_glass_graduation,frame_type,frame_color," +
+                "left_glass_color,right_glass_color,price,provider_id)" +
                      "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-        try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
 
                  preparedStatement.setString(1, glasses.getBrand());
                  preparedStatement.setDouble(2, glasses.getGraduationLeft());
@@ -22,8 +22,8 @@ public class GlassesRepository {
                  preparedStatement.setString(5, glasses.getColor());
                  preparedStatement.setString(6, glasses.getColorLeft());
                  preparedStatement.setString(7, glasses.getColorRight());
-                 preparedStatement.setDouble(6, glasses.getPrice());
-                 preparedStatement.setObject(7, glasses.getProvider());
+                 preparedStatement.setDouble(8, glasses.getPrice());
+                 preparedStatement.setObject(9, glasses.getProvider().getId());
 
                  preparedStatement.execute();
                  System.out.println("Save successful");

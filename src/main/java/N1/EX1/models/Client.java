@@ -1,25 +1,35 @@
 package N1.EX1.models;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public class Client {
 
+    private int id;
     private String name;
     private String address;
     private int phone;
     private String email;
-    private final LocalDateTime CREATED;
+    private final LocalDate CREATED;
     private Client recommendedBy;
     private String employee;
 
-    public Client(String email, int phone, String address, String name, String employee, Client recommendedBy) {
-        this.email = email;
-        this.phone = phone;
-        this.address = address;
+    public Client(String name, String address, int phone, String email, Client recommendedBy, String employee) {
         this.name = name;
-        this.employee = employee;
+        this.address = address;
+        this.phone = phone;
+        this.email = email;
+        this.CREATED = LocalDate.now();
         this.recommendedBy = recommendedBy;
-        this.CREATED = LocalDateTime.now();
+        this.employee = employee;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -70,7 +80,7 @@ public class Client {
         this.employee = employee;
     }
 
-    public LocalDateTime getCreated() {
+    public LocalDate getCreated() {
         return CREATED;
     }
 }

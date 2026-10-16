@@ -2,6 +2,7 @@ package N1.EX1.models;
 
 public class Provider {
 
+    private int id;
     private String name;
     private String street;
     private String number;
@@ -28,6 +29,14 @@ public class Provider {
         this.phone = phone;
         this.fax = fax;
         this.nif = nif;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getName() {
