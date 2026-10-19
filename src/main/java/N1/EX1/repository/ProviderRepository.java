@@ -32,7 +32,7 @@ public class ProviderRepository {
 
                     provider.setId(generatedId);
 
-                    System.out.println("✅ Proveedor guardado con éxito. ID asignado: " + generatedId);
+                    System.out.println("Proveedor guardado con éxito. ID asignado: " + generatedId);
                 }
             }
 

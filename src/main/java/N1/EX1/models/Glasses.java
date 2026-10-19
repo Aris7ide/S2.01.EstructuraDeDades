@@ -2,6 +2,7 @@ package N1.EX1.models;
 
 public class Glasses {
 
+    private int id;
     private String brand;
     private double graduationLeft;
     private double graduationRight;
@@ -23,6 +24,14 @@ public class Glasses {
         this.colorRight = colorRight;
         this.price = price;
         this.provider = provider;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getBrand() {

@@ -2,9 +2,7 @@ package N1.EX1.repository;
 
 import N1.EX1.models.Glasses;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.*;
 
 public class GlassesRepository {
 
@@ -13,7 +11,7 @@ public class GlassesRepository {
                 "left_lens_color,right_lens_color,price,provider_id)" +
                      "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
                  preparedStatement.setString(1, glasses.getBrand());
                  preparedStatement.setDouble(2, glasses.getGraduationLeft());
@@ -26,7 +24,13 @@ public class GlassesRepository {
                  preparedStatement.setObject(9, glasses.getProvider().getId());
 
                  preparedStatement.execute();
-                 System.out.println("Save successful");
+
+            try (ResultSet generatedKeys = preparedStatement.getGeneratedKeys()) {
+                if (generatedKeys.next()) {
+                    glasses.setId(generatedKeys.getInt(1));
+                    System.out.println("Gafas guardadas con èxito. ID asignado: " + glasses.getId());
+                }
+            }
 
              } catch (SQLException e) {
                  System.err.println(e.getMessage());
