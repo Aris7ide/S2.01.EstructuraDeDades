@@ -10,8 +10,12 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestClassOrder;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.util.List;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
 class SaleRepositoryTest {
@@ -87,6 +91,16 @@ class SaleRepositoryTest {
                 client
         );
         saleRepository.save(connection, sale);
+    }
+
+    @Test
+    void shouldFindSaleByNameAndDate() {
+        LocalDate startDate = LocalDate.of(2026,1,1);
+        LocalDate endDate = LocalDate.now();
+        List<Sale> sales= saleRepository.findSalesByNameAndDate(connection,"David Ruiz",startDate,endDate);
+        assertThat(sales).isNotEmpty();
+        assertThat(sales).hasSize(1);
+        assertThat(sales.get(0).getId()).isEqualTo(4);
     }
 
 

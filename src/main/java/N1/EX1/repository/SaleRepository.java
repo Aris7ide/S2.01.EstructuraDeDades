@@ -1,9 +1,13 @@
 package N1.EX1.repository;
 
+import N1.EX1.models.Client;
+import N1.EX1.models.Glasses;
 import N1.EX1.models.Sale;
 
 import java.sql.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 public class SaleRepository {
 
@@ -30,4 +34,45 @@ public class SaleRepository {
             System.err.println(e.getMessage());
         }
     }
+
+    public List<Sale> findSalesByNameAndDate(Connection connection, String name, LocalDate startDate, LocalDate endDate){
+        List<Sale> saleList = new ArrayList<>();
+        String sql = "SELECT s.id AS sales_id, s.date, " +
+                "g.id AS g_is, g.brand,g.price, " +
+                "c.id AS c_id, c.name AS c_name " +
+                "FROM sales s " +
+                "JOIN glasses g ON s.glasses_id = g.id " +
+                "JOIN client c ON s.client_id = c.id " +
+                "WHERE c.name = ? AND s.date BETWEEN ? AND ?";
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setString(1, name);
+            preparedStatement.setObject(2, startDate);
+            preparedStatement.setObject(3, endDate);
+
+            try (ResultSet rs = preparedStatement.executeQuery()) {
+                while (rs.next()) {
+                    Glasses glasses = new Glasses();
+                    glasses.setId(rs.getInt("sales_id"));
+                    glasses.setBrand(rs.getString("g_is"));
+                    glasses.setPrice(rs.getDouble("c_id"));
+
+                    Client client = new Client();
+                    client.setId(rs.getInt("c_id"));
+                    client.setName(rs.getString("C_name"));
+
+                    Sale sale = new Sale(glasses, client);
+                    sale.setId(rs.getInt("sales_id"));
+                    sale.setDate(rs.getDate("date").toLocalDate());
+
+                    saleList.add(sale);
+                }
+            }
+
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+        }
+
+        return saleList;
+    };
 }

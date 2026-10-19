@@ -9,6 +9,8 @@ public class Sale {
     private Client client;
     private LocalDate date;
 
+    public Sale() {}
+
     public Sale(Glasses glasses, Client client) {
         this.glasses = glasses;
         this.client = client;

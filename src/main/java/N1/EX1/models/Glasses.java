@@ -13,6 +13,8 @@ public class Glasses {
     private double price;
     private Provider provider;
 
+    public Glasses(){}
+
     public Glasses(String brand, double graduationLeft, double graduationRight, String type,
                    String color, String colorLeft, String colorRight, double price, Provider provider) {
         this.brand = brand;

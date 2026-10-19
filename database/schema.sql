@@ -61,12 +61,20 @@ CREATE TABLE sales (
     CONSTRAINT fk_sale_client FOREIGN KEY (client_id) REFERENCES client(id)
 );
 
+CREATE TABLE employee (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    firstName VARCHAR(30) NOT NULL,
+    lastName VARCHAR(30) NOT NULL,
+    phone VARCHAR(30),
+    date DATE NOT NULL
+);
+
     INSERT INTO provider (name, street, number, floor, door, city, postal_code, country, phone, fax, nif) VALUES
-('Opticas Centrales S.A.', 'Calle Mayor', '12', '1', 'A', 'Barcelona', '08001', 'España', '933000001', '933000002', 'A12345678'),
+('Ópticas Centrales S.A.', 'Calle Mayor', '12', '1', 'A', 'Barcelona', '08001', 'España', '933000001', '933000002', 'A12345678'),
 ('Vision Global', 'Avenida Diagonal', '455', '3', '2', 'Barcelona', '08036', 'España', '934000001', '934000002', 'B87654321'),
 ('Medical Lens SL', 'Calle Valencia', '200', 'Bajo', '', 'Valencia', '46001', 'España', '963111222', '963111223', 'C11223344'),
 ('Gafas Express', 'Gran Vía', '50', '2', '4', 'Madrid', '28013', 'España', '915444555', '915444556', 'A99887766'),
-('Optica del Norte', 'Calle Real', '5', '', '', 'Bilbao', '48001', 'España', '944666777', NULL, 'B55443322'),
+('Òptica del Norte', 'Calle Real', '5', '', '', 'Bilbao', '48001', 'España', '944666777', NULL, 'B55443322'),
 ('Solaris Eyewear', 'Passeig de Gràcia', '88', 'Pral', '1', 'Barcelona', '08008', 'España', '932223344', '932223345', 'A33221144'),
 ('Distribuidores Ópticos', 'Calle Serrano', '110', '4', 'Izq', 'Madrid', '28006', 'España', '915112233', NULL, 'C99882211'),
 ('Eco Glasses', 'Calle Betis', '15', 'Bajo', '', 'Sevilla', '41010', 'España', '954223344', NULL, 'B77665544'),
@@ -92,7 +100,7 @@ INSERT INTO glasses (brand, left_graduation, right_graduation, frame_type, frame
                                                                                                                                                    ('Arnette', -0.75, -0.50, 'pasta', 'Carey', 'Verde', 'Verde', 99.00, 2),
                                                                                                                                                    ('Carrera', -2.00, -2.00, 'metálica', 'Dorado', 'Transparente', 'Transparente', 159.00, 3),
                                                                                                                                                    ('Police', 1.25, 1.00, 'metálica', 'Gris', 'Transparente', 'Transparente', 130.00, 4),
-                                                                                                                                                   ('Persol', -3.25, -3.00, 'pasta', 'Hвана', 'Marrón', 'Marrón', 210.00, 5),
+                                                                                                                                                   ('Persol', -3.25, -3.00, 'pasta', 'Azul', 'Marrón', 'Marrón', 210.00, 5),
                                                                                                                                                    ('Prada', -0.50, -0.75, 'flotante', 'Negro', 'Transparente', 'Transparente', 280.00, 6),
                                                                                                                                                    ('Tom Ford', 1.50, 1.50, 'pasta', 'Carey', 'Transparente', 'Transparente', 250.00, 7),
                                                                                                                                                    ('Hawkers', -1.00, -1.25, 'pasta', 'Rosa', 'Rosa', 'Rosa', 59.99, 8),
@@ -108,5 +116,12 @@ INSERT INTO sales (glasses_id, client_id, date) VALUES
                                                     (7, 7, '2026-02-12'),
                                                     (8, 8, '2026-02-15'),
                                                     (9, 9, '2026-02-18'),
-                                                    (10, 10, '2026-02-20');
+                                                    (10, 10, '2026-02-20'),
+                                                    (4, 4, '2025-02-05');
 
+INSERT INTO employee (firstName, lastName, phone, date) VALUES
+                                                            ('Juan', 'Pérez', '+34600123456', '2024-01-15'),
+                                                            ('María', 'García', '+34600234567', '2024-03-20'),
+                                                            ('Carlos', 'López', '+34600345678', '2024-05-10'),
+                                                            ('Ana', 'Martínez', '+34600456789', '2024-07-01'),
+                                                            ('David', 'Ruiz', '+34600567890', '2024-09-12');

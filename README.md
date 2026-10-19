@@ -45,3 +45,7 @@ La política de compras de la óptica se basa en que las gafas de una marca se c
 - he creado un test de ProviderRepository para probar que el provider se guarde
 - como con Provider he creado la glasse Glasses, el repository GlassesRepository y la tabla en MySQL workbench
 - hago lo mismo con Client y ClientRepository
+- he creado tambièn una clase y una tabla Sale connectada all'id client y glasses
+- he creado con Gemini una lista de elementos para añadirlas a las tablas con el schema.sql
+- he creado un metodo en SaleRepository: findSalesByNameAndDate() y lo he testeado.
+- he añadido una clase Employee y el EmployeeRepository

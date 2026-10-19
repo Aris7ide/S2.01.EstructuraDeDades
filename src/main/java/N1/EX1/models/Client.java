@@ -10,9 +10,11 @@ public class Client {
     private String address;
     private int phone;
     private String email;
-    private final LocalDate CREATED;
+    private LocalDate CREATED;
     private Client recommendedBy;
     private String employee;
+
+    public Client() {}
 
     public Client(String name, String address, int phone, String email, Client recommendedBy, String employee) {
         this.name = name;
