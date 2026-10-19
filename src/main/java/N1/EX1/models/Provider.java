@@ -15,6 +15,8 @@ public class Provider {
     private String fax;
     private String nif;
 
+    public Provider() {}
+
     public Provider(String name, String street, String number, String floor,
                     String door, String city, String postalCode, String country,
                     String phone, String fax, String nif) {

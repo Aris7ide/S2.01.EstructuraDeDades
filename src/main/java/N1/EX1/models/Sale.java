@@ -7,14 +7,24 @@ public class Sale {
     private int id;
     private Glasses glasses;
     private Client client;
+    private Employee employee;
     private LocalDate date;
 
     public Sale() {}
 
-    public Sale(Glasses glasses, Client client) {
+    public Sale(Glasses glasses, Client client, Employee employee) {
         this.glasses = glasses;
         this.client = client;
+        this.employee = employee;
         this.date = LocalDate.now();
+    }
+
+    public Employee getEmployee() {
+        return employee;
+    }
+
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
     }
 
     public int getId() {

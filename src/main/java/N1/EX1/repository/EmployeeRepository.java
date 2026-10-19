@@ -3,11 +3,13 @@ package N1.EX1.repository;
 import N1.EX1.models.Employee;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class EmployeeRepository {
 
     public void save(Connection connection, Employee employee) {
-        String sql = "INSERT INTO employee (firstName, lastName, phone, created)" +
+        String sql = "INSERT INTO employee (firstName, lastName, phone, date)" +
                     "VALUES (?,?,?,?)";
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
@@ -25,10 +27,11 @@ public class EmployeeRepository {
                 }
             }
 
-            System.out.println("Save successful");
+            System.out.println("Employee saved successful with id: " + employee.getId());
 
         } catch (SQLException e) {
             System.err.println(e.getMessage());
         }
     }
+
 }

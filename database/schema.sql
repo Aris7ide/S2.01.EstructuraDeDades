@@ -51,22 +51,23 @@ CREATE TABLE glasses (
                                  ON DELETE RESTRICT
 );
 
+CREATE TABLE employee (
+                          id INT AUTO_INCREMENT PRIMARY KEY,
+                          firstName VARCHAR(30) NOT NULL,
+                          lastName VARCHAR(30) NOT NULL,
+                          phone VARCHAR(30),
+                          date DATE NOT NULL
+);
+
 CREATE TABLE sales (
     id INT AUTO_INCREMENT PRIMARY KEY,
     glasses_id INT NOT NULL,
     client_id INT NOT NULL,
+    employee_id INT NOT NULL,
     date DATE NOT NULL,
 
     CONSTRAINT fk_sale_glasses FOREIGN KEY (glasses_id) REFERENCES glasses(id),
     CONSTRAINT fk_sale_client FOREIGN KEY (client_id) REFERENCES client(id)
-);
-
-CREATE TABLE employee (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    firstName VARCHAR(30) NOT NULL,
-    lastName VARCHAR(30) NOT NULL,
-    phone VARCHAR(30),
-    date DATE NOT NULL
 );
 
     INSERT INTO provider (name, street, number, floor, door, city, postal_code, country, phone, fax, nif) VALUES
@@ -106,18 +107,18 @@ INSERT INTO glasses (brand, left_graduation, right_graduation, frame_type, frame
                                                                                                                                                    ('Hawkers', -1.00, -1.25, 'pasta', 'Rosa', 'Rosa', 'Rosa', 59.99, 8),
                                                                                                                                                    ('Vogue', -2.50, -2.25, 'metálica', 'Plateado', 'Transparente', 'Transparente', 115.50, 9);
 
-INSERT INTO sales (glasses_id, client_id, date) VALUES
-                                                    (1, 1, '2026-02-01'),
-                                                    (2, 2, '2026-02-02'),
-                                                    (3, 3, '2026-02-03'),
-                                                    (4, 4, '2026-02-05'),
-                                                    (5, 5, '2026-02-08'),
-                                                    (6, 6, '2026-02-10'),
-                                                    (7, 7, '2026-02-12'),
-                                                    (8, 8, '2026-02-15'),
-                                                    (9, 9, '2026-02-18'),
-                                                    (10, 10, '2026-02-20'),
-                                                    (4, 4, '2025-02-05');
+INSERT INTO sales (glasses_id, client_id, employee_id, date) VALUES
+                                                    (1, 1, 1,'2026-02-01'),
+                                                    (1, 2, 1,'2026-02-02'),
+                                                    (2, 3, 1,'2026-02-03'),
+                                                    (6, 4, 3,'2026-02-05'),
+                                                    (1, 5, 2,'2026-02-08'),
+                                                    (1, 6, 4,'2026-02-10'),
+                                                    (3, 7, 2,'2026-02-12'),
+                                                    (3, 8, 2,'2026-02-15'),
+                                                    (6, 9, 5,'2026-02-18'),
+                                                    (6, 10, 5,'2026-02-20'),
+                                                    (6, 4, 3,'2025-02-05');
 
 INSERT INTO employee (firstName, lastName, phone, date) VALUES
                                                             ('Juan', 'Pérez', '+34600123456', '2024-01-15'),

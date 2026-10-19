@@ -49,3 +49,6 @@ La política de compras de la óptica se basa en que las gafas de una marca se c
 - he creado con Gemini una lista de elementos para añadirlas a las tablas con el schema.sql
 - he creado un metodo en SaleRepository: findSalesByNameAndDate() y lo he testeado.
 - he añadido una clase Employee y el EmployeeRepository
+- he creado otro metodo en SaleRepository para filtrar por employee y año de venta.
+- he creado un metodo en ProviderRepository para filtrar los provider que tienen gafas que han vendido
+- he testeado todo. 

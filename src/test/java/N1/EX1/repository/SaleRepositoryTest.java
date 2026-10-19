@@ -1,16 +1,11 @@
 package N1.EX1.repository;
 
-import N1.EX1.models.Client;
-import N1.EX1.models.Glasses;
-import N1.EX1.models.Provider;
-import N1.EX1.models.Sale;
+import N1.EX1.models.*;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestClassOrder;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.List;
@@ -25,6 +20,7 @@ class SaleRepositoryTest {
     private ClientRepository clientRepository;
     private GlassesRepository glassesRepository;
     private ProviderRepository providerRepository;
+    private EmployeeRepository employeeRepository;
 
     @BeforeEach
     void setUp() throws SQLException {
@@ -35,6 +31,7 @@ class SaleRepositoryTest {
         clientRepository = new ClientRepository();
         glassesRepository = new GlassesRepository();
         providerRepository = new ProviderRepository();
+        employeeRepository = new EmployeeRepository();
     }
 
 
@@ -86,9 +83,16 @@ class SaleRepositoryTest {
         );
         glassesRepository.save(connection, glasses);
 
+        Employee employee = new Employee("Aris",
+                "Russo",
+                "691760715"
+        );
+        employeeRepository.save(connection, employee);
+
         Sale sale = new Sale(
                 glasses,
-                client
+                client,
+                employee
         );
         saleRepository.save(connection, sale);
     }
@@ -101,6 +105,18 @@ class SaleRepositoryTest {
         assertThat(sales).isNotEmpty();
         assertThat(sales).hasSize(1);
         assertThat(sales.get(0).getId()).isEqualTo(4);
+    }
+
+    @Test
+    void shouldFindBrandsPerYearPerEmployee() {
+        List<Glasses> listGlasses = saleRepository.findBrandsByEmployeeAndYear(connection, "David", 2026);
+        assertThat(listGlasses).isNotEmpty();
+        assertThat(listGlasses).hasSize(2);
+
+        for (Glasses glasses : listGlasses) {
+            System.out.println(glasses);
+        }
+
     }
 
 

@@ -3,6 +3,8 @@ package N1.EX1.repository;
 import N1.EX1.models.Provider;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ProviderRepository {
 
@@ -39,5 +41,29 @@ public class ProviderRepository {
         } catch (SQLException e) {
             System.err.println(e.getMessage());
         }
+    }
+
+    public List<Provider> findProvidersThatSold(Connection connection) {
+        List<Provider> saleList = new ArrayList<>();
+        String sql = "SELECT DISTINCT p.name " +
+                "FROM provider p " +
+                "JOIN glasses g ON p.id = g.provider_id " +
+                "JOIN sales s ON g.id = s.glasses_id ";
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    Provider provider = new Provider();
+                    provider.setName(resultSet.getString("name"));
+                    saleList.add(provider);
+                }
+            }
+
+        } catch (SQLException e ) {
+            System.err.println(e.getMessage());
+        }
+
+        return saleList;
     }
 }

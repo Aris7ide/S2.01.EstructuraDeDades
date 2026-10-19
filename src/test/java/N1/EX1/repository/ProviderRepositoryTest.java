@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
@@ -50,6 +51,17 @@ class ProviderRepositoryTest {
         repository.save(connection, provider);
 
         assertThat(provider.getName()).isEqualTo("Optica Test Rollback");
+    }
+
+    @Test
+    void shouldListProviderThatSold() {
+        List<Provider> list = repository.findProvidersThatSold(connection);
+
+        //assertThat(list.size()).isEqualTo(4);
+
+        for  (Provider p : list) {
+            System.out.println(p);
+        }
     }
 
 

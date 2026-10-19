@@ -28,6 +28,11 @@ public class Glasses {
         this.provider = provider;
     }
 
+    @Override
+    public String toString() {
+        return brand + ", " + price;
+    }
+
     public int getId() {
         return id;
     }
