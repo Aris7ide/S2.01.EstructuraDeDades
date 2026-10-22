@@ -6,7 +6,7 @@ import java.sql.*;
 
 public class ClientRepository {
 
-    public void save(Connection connection, Client client) {
+    public Client save(Connection connection, Client client) {
         String sql = "INSERT INTO client (name,address,phone,email,created,recommended_by_id,employee)" +
                      "VALUES (?,?,?,?,?,?,?)";
 
@@ -34,11 +34,42 @@ public class ClientRepository {
             }
 
             System.out.println("Save successful");
+            return findById(connection, client.getId());
 
         } catch (SQLException e) {
             System.err.println(e.getMessage());
         }
+        return null;
+    }
 
+    public Client findById(Connection connection, int id) {
+        String sql = "SELECT * FROM client WHERE id = ?";
 
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, id);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    Client client = new Client(
+                            rs.getString("name"),
+                            rs.getString("address"),
+                            rs.getInt("phone"),
+                            rs.getString("email"),
+                            null,
+                            rs.getString("employee")
+                    );
+
+                    client.setId(rs.getInt("id"));
+
+                    return client;
+                }
+            }  catch (SQLException e) {
+                System.err.println(e.getMessage());
+            }
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+        }
+
+        return null;
     }
 }

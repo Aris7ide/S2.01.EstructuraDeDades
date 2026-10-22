@@ -49,19 +49,18 @@ class ProviderRepositoryTest {
         );
 
         repository.save(connection, provider);
-
-        assertThat(provider.getName()).isEqualTo("Optica Test Rollback");
+        assertThat(repository.findProviderById(connection, provider.getId())).isNotNull();
+        assertThat(repository.findProviderById(connection, provider.getId()).getName()).isEqualTo("Optica Test Rollback");
     }
 
     @Test
     void shouldListProviderThatSold() {
         List<Provider> list = repository.findProvidersThatSold(connection);
 
-        //assertThat(list.size()).isEqualTo(4);
+        assertThat(list).isNotNull();
+        assertThat(list.size()).isEqualTo(3);
 
-        for  (Provider p : list) {
-            System.out.println(p);
-        }
+
     }
 
 

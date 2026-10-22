@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import java.sql.Connection;
 import java.sql.SQLException;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
 class ClientRepositoryTest {
@@ -38,13 +39,16 @@ class ClientRepositoryTest {
                 "Aris",
                 "Carrer de Lancaster 4, 2-2",
                 691760715,
-                "Aris7die@gmail.com",
+                "Aris7ide@gmail.com",
                 null,
                 "Fabio"
 
         );
-
         clientRepository.save(connection, client1);
+
+        Client clientTest = clientRepository.findById(connection, client1.getId());
+        assertThat(clientTest).isNotNull();
+        assertThat(clientTest.getEmail()).isEqualTo("Aris7ide@gmail.com");
 
         Client client2 = new Client(
                 "Martina",
@@ -55,6 +59,9 @@ class ClientRepositoryTest {
                 "Fabio"
         );
         clientRepository.save(connection, client2);
+
+        assertThat(clientRepository.findById(connection, client2.getId())).isNotNull();
+        assertThat(clientRepository.findById(connection, client2.getId()).getName()).isEqualTo("Martina");
     }
 
 }

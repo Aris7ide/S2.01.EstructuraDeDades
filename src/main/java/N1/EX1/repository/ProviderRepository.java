@@ -43,6 +43,43 @@ public class ProviderRepository {
         }
     }
 
+    public Provider findProviderById(Connection connection, int id) {
+        String sql = "SELECT * FROM provider WHERE id = ?";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, id);
+
+            try (ResultSet rs  = ps.executeQuery()) {
+                if (rs.next()) {
+                    Provider provider = new Provider(
+                            rs.getString("name"),
+                            rs.getString("street"),
+                            rs.getString("number"),
+                            rs.getString("floor"),
+                            rs.getString("door"),
+                            rs.getString("city"),
+                            rs.getString("postal_code"),
+                            rs.getString("country"),
+                            rs.getString("phone"),
+                            rs.getString("fax"),
+                            rs.getString("nif")
+                    );
+
+                    provider.setId(id);
+
+                    return provider;
+                }
+            } catch (SQLException e) {
+                System.err.println(e.getMessage());
+            }
+
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+        }
+
+
+        return null;
+    }
+
     public List<Provider> findProvidersThatSold(Connection connection) {
         List<Provider> saleList = new ArrayList<>();
         String sql = "SELECT DISTINCT p.name " +

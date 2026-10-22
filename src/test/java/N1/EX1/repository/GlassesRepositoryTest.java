@@ -52,6 +52,8 @@ class GlassesRepositoryTest {
         );
         providerRepository.save(connection, provider);
 
+        assertThat(providerRepository.findProviderById(connection,provider.getId()).getDoor()).isEqualTo("A");
+
         Glasses glasses = new Glasses(
                 "RayBan",
                 0.50,
@@ -65,9 +67,8 @@ class GlassesRepositoryTest {
         );
         glassesRepository.save(connection, glasses);
 
-        assertThat(glasses.getBrand()).isEqualTo("RayBan");
-        assertThat(glasses.getPrice()).isNotEqualTo(0);
-        assertThat(glasses.getProvider()).isNotNull();
+        assertThat(glassesRepository.findById(connection,glasses.getId())).isNotNull();
+        assertThat(glassesRepository.findById(connection,glasses.getId()).getBrand()).isEqualTo("RayBan");
     }
 
 }

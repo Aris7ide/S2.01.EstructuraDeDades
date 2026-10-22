@@ -26,6 +26,11 @@ public class Client {
         this.employee = employee;
     }
 
+    @Override
+    public String toString() {
+        return this.name + ", with email: " + this.email;
+    }
+
     public int getId() {
         return id;
     }

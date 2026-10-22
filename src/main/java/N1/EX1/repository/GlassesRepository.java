@@ -1,12 +1,13 @@
 package N1.EX1.repository;
 
 import N1.EX1.models.Glasses;
+import N1.EX1.models.Provider;
 
 import java.sql.*;
 
 public class GlassesRepository {
 
-    public void save(Connection connection, Glasses glasses) {
+    public Glasses save(Connection connection, Glasses glasses) {
         String sql = "INSERT INTO glasses (brand,left_graduation,right_graduation,frame_type,frame_color," +
                 "left_lens_color,right_lens_color,price,provider_id)" +
                      "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
@@ -32,8 +33,49 @@ public class GlassesRepository {
                 }
             }
 
-             } catch (SQLException e) {
+            return findById(connection, glasses.getId());
+
+            } catch (SQLException e) {
                  System.err.println(e.getMessage());
         }
+        return null;
+    }
+
+    public Glasses findById(Connection connection, int id) {
+        String sql = "SELECT * FROM glasses WHERE id = ?";
+
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+
+            ps.setInt(1, id);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    Glasses glasses = new Glasses(
+                            rs.getString("brand"),
+                            rs.getDouble("left_graduation"),
+                            rs.getDouble("right_graduation"),
+                            rs.getString("frame_type"),
+                            rs.getString("frame_color"),
+                            rs.getString("left_lens_color"),
+                            rs.getString("right_lens_color"),
+                            rs.getDouble("price"),
+                            null
+                    );
+
+                    int providerId = rs.getInt("provider_id");
+                    ProviderRepository providerRepository = new ProviderRepository();
+                    Provider provider = providerRepository.findProviderById(connection, providerId);
+                    glasses.setProvider(provider);
+
+                    glasses.setId(id);
+
+                    return glasses;
+                }
+            }
+
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+        }
+        return null;
     }
 }

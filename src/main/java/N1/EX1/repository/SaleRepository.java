@@ -9,34 +9,73 @@ import java.util.List;
 
 public class SaleRepository {
 
-    public void save(Connection connection, Sale sale){
-        String sql = "INSERT INTO sales (glasses_id, client_id, date)" +
-                " VALUES (?,?,?)";
+    public Sale save(Connection connection, Sale sale){
+        String sql = "INSERT INTO sales (glasses_id, client_id, employee_id, date)" +
+                " VALUES (?,?,?,?)";
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
             preparedStatement.setInt(1, sale.getGlasses().getId());
             preparedStatement.setInt(2, sale.getClient().getId());
-            preparedStatement.setDate(3, Date.valueOf(LocalDate.now()));
+            preparedStatement.setInt(3, sale.getEmployee().getId());
+            preparedStatement.setDate(4, Date.valueOf(LocalDate.now()));
 
             preparedStatement.executeUpdate();
 
             try(ResultSet resultSet = preparedStatement.getGeneratedKeys()){
                 if (resultSet.next()) {
                     sale.setId(resultSet.getInt(1));
-                    System.out.println("Sale saved successfully");
                 }
             }
+
+            return findById(connection, sale.getId());
 
         } catch (SQLException e) {
             System.err.println(e.getMessage());
         }
+        return null;
+    }
+
+    public Sale findById(Connection connection, int id){
+        String sql = "SELECT * FROM sales WHERE id = ?";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, id);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    Sale sale = new Sale(
+                            null,
+                            null,
+                            null
+                    );
+
+                    GlassesRepository glassesRepository = new GlassesRepository();
+                    ClientRepository clientRepository = new ClientRepository();
+                    EmployeeRepository employeeRepository = new EmployeeRepository();
+
+                    Glasses glasses = glassesRepository.findById(connection, rs.getInt("glasses_id"));
+                    sale.setGlasses(glasses);
+
+                    Client client = clientRepository.findById(connection, rs.getInt("client_id"));
+                    sale.setClient(client);
+
+                    Employee employee = employeeRepository.findById(connection, rs.getInt("employee_id"));
+                    sale.setEmployee(employee);
+
+                    sale.setId(rs.getInt("id"));
+
+                    return sale;
+                }
+            }
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+        }
+        return null;
     }
 
     public List<Sale> findSalesByNameAndDate(Connection connection, String name, LocalDate startDate, LocalDate endDate){
         List<Sale> saleList = new ArrayList<>();
         String sql = "SELECT s.id AS sales_id, s.date, " +
-                "g.id AS g_id, g.brand,g.price, " +
+                "g.id AS g_id, g.brand, g.price, " +
                 "c.id AS c_id, c.name AS c_name " +
                 "FROM sales s " +
                 "JOIN glasses g ON s.glasses_id = g.id " +
@@ -52,7 +91,7 @@ public class SaleRepository {
                 while (rs.next()) {
                     Glasses glasses = new Glasses();
                     glasses.setId(rs.getInt("sales_id"));
-                    glasses.setBrand(rs.getString("g_is"));
+                    glasses.setBrand(rs.getString("g_id"));
                     glasses.setPrice(rs.getDouble("c_id"));
 
                     Client client = new Client();

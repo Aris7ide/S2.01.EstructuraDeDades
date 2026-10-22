@@ -11,7 +11,6 @@ import java.time.LocalDate;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 class SaleRepositoryTest {
 
@@ -89,19 +88,24 @@ class SaleRepositoryTest {
         );
         employeeRepository.save(connection, employee);
 
+        assertThat(employeeRepository.findById(connection, employee.getId()).getFirstName()).isEqualTo("Aris");
+
         Sale sale = new Sale(
                 glasses,
                 client,
                 employee
         );
         saleRepository.save(connection, sale);
+
+        assertThat(saleRepository.findById(connection, sale.getId())).isNotNull();
+        assertThat(saleRepository.findById(connection, sale.getId()).getEmployee().getFirstName()).isEqualTo("Aris");
     }
 
     @Test
     void shouldFindSaleByNameAndDate() {
         LocalDate startDate = LocalDate.of(2026,1,1);
         LocalDate endDate = LocalDate.now();
-        List<Sale> sales= saleRepository.findSalesByNameAndDate(connection,"David Ruiz",startDate,endDate);
+        List<Sale> sales = saleRepository.findSalesByNameAndDate(connection,"David Ruiz",startDate,endDate);
         assertThat(sales).isNotEmpty();
         assertThat(sales).hasSize(1);
         assertThat(sales.get(0).getId()).isEqualTo(4);
@@ -111,12 +115,7 @@ class SaleRepositoryTest {
     void shouldFindBrandsPerYearPerEmployee() {
         List<Glasses> listGlasses = saleRepository.findBrandsByEmployeeAndYear(connection, "David", 2026);
         assertThat(listGlasses).isNotEmpty();
-        assertThat(listGlasses).hasSize(2);
-
-        for (Glasses glasses : listGlasses) {
-            System.out.println(glasses);
-        }
-
+        assertThat(listGlasses).hasSize(1);
     }
 
 

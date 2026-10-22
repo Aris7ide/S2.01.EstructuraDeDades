@@ -8,7 +8,7 @@ import java.util.List;
 
 public class EmployeeRepository {
 
-    public void save(Connection connection, Employee employee) {
+    public Employee save(Connection connection, Employee employee) {
         String sql = "INSERT INTO employee (firstName, lastName, phone, date)" +
                     "VALUES (?,?,?,?)";
 
@@ -28,10 +28,36 @@ public class EmployeeRepository {
             }
 
             System.out.println("Employee saved successful with id: " + employee.getId());
+            return findById(connection, employee.getId());
 
         } catch (SQLException e) {
             System.err.println(e.getMessage());
         }
+        return null;
+    }
+
+    public Employee findById(Connection connection, int id) {
+        String sql = "SELECT * FROM employee WHERE id = ?";
+
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, id);
+            try(ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    Employee employee = new Employee(
+                            rs.getString("firstName"),
+                            rs.getString("lastName"),
+                            rs.getString("phone")
+                    );
+
+                    employee.setId(id);
+
+                    return employee;
+                }
+            }
+        } catch  (SQLException e) {
+            System.err.println(e.getMessage());
+        }
+        return null;
     }
 
 }
